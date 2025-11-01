@@ -150,7 +150,7 @@ http {
 - รันคำสั่งดูสถานะ PHP-FPM:
 ```
 sudo systemctl status php5.6-fpm
-sudo service php5.6-fpm reload
+sudo service php[Version]-fpm reload
 ```
 
 - ตรวจสอบจำนวน process ที่เปิดอยู่:
