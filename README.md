@@ -149,7 +149,7 @@ http {
 ## ตรวจสอบ Performance
 - รันคำสั่งดูสถานะ PHP-FPM:
 ```
-sudo systemctl status php5.6-fpm
+sudo systemctl status php[Version]-fpm
 sudo service php[Version]-fpm reload
 ```
 
