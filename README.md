@@ -62,6 +62,49 @@ upload_max_filesize = 50M
 max_input_vars = 5000
 ```
 
+## ติดตั้ง PgBouncer + PHP-FPM
+สำหรับ production หรือเว็บที่มี concurrent เยอะแนะนำใช้ PgBouncer ทำเป็น connection pool ระหว่าง PHP-FPM กับ PostgreSQL
+- ติดตั้งผ่าน apt:
+```
+sudo apt install pgbouncer
+```
+-ไฟล์หลักจะอยู่ที่: 
+```
+/etc/pgbouncer/pgbouncer.ini
+```
+- และไฟล์ environment/credential อื่น ๆ เช่น:
+```
+/etc/pgbouncer/userlist.txt
+```
+- ตั้งค่า
+```
+[databases]
+mydb = host=127.0.0.1 port=5432 dbname=mydb user=myuser password=mypass # ตั้งค่า Host, Port, DB Name และ Password ที่ต้องใช้งาน
+
+[pgbouncer]
+listen_addr = 0.0.0.0
+listen_port = 6432
+auth_type = md5
+auth_file = /etc/pgbouncer/userlist.txt
+logfile = /var/log/pgbouncer/pgbouncer.log
+pidfile = /var/run/pgbouncer/pgbouncer.pid
+admin_users = postgres
+pool_mode = session
+max_client_conn = 1000
+default_pool_size = 50
+```
+
+- ทำการ Restart PgBouncer
+```
+sudo systemctl restart pgbouncer
+```
+
+- ตรวจสอบสถานะการทำงานของ PGBouncer
+```
+sudo systemctl status pgbouncer
+```
+
+
 ## ปรับ Nginx ให้สอดคล้องกับจำนวน PHP workers
 - แก้ไขไฟล์ต่อไปนี้
 ```
